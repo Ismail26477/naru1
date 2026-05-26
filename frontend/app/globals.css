@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Posuhtik — Organic & Earthy light theme */
+    --background: 44 40% 98%;        /* #FDFBF7 warm cream */
+    --foreground: 20 10% 15%;        /* #292624 deep warm charcoal */
+    --card: 0 0% 100%;
+    --card-foreground: 20 10% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 10% 15%;
+    --primary: 30 68% 54%;           /* #D98A3C earthy ochre / turmeric */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 104 9% 50%;         /* #7A8C74 sage green */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 40 20% 92%;             /* #EBE6DF warm oat */
+    --muted-foreground: 25 10% 40%;
+    --accent: 10 55% 52%;            /* #C55A45 terracotta red — cutoff / alerts */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 15% 90%;
+    --input: 40 15% 90%;
+    --ring: 30 68% 54%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, h4 { @apply font-display tracking-tight; }
+  input, textarea, select { @apply font-sans; }
+}
+
+/* Hide scrollbar on mobile chip rows */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Diagonal hatch overlay for locked days */
+.locked-hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0,
+    transparent 4px,
+    hsl(var(--muted-foreground) / 0.12) 4px,
+    hsl(var(--muted-foreground) / 0.12) 5px
+  );
+}
+
+/* Safe area padding for iPhone notch */
+.pb-safe { padding-bottom: calc(env(safe-area-inset-bottom, 0) + 4.5rem); }

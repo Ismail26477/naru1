@@ -1,0 +1,164 @@
+<analysis>### Handover Summary
+
+**original_problem_statement**: 
+The user is building Posuhtik — a subscription-based fresh milk and dairy delivery platform operating in Nagpur, India. This is a real business with paying customers. 
+PRODUCT REQUIREMENTS:
+- **Backend:** FastAPI (Python)
+- **Database:** PostgreSQL (Strictly NO MongoDB). Use async SQLAlchemy 2.0 and Alembic.
+- **Frontend:** Next.js 14 App Router, TypeScript, Tailwind CSS, shadcn/ui, React Query.
+- **Business Rules:** 8:00 PM IST cutoff for modifying tomorrow's orders. Bottle ledger tracking (returnable glass bottles). Monthly billing generated on the 1st of the month. Fixed delivery routes per customer. Admin approval required for customers. Money stored in integer paise. All dates in IST timezone representation, stored in UTC.
+- Integrations (Stubbed for now): Razorpay, MSG91 (SMS), Firebase FCM, Google Maps, S3.
+
+**User's preferred language**: English (INSTRUCT next agent to respond in English only).
+
+**what currently exists?**: 
+Phase 1 (Backend API & PostgreSQL database) and Phase 2A (Customer Web App) are fully implemented, tested, and audited. A hardening sprint was just completed which implemented strict CORS, OTP rate-limiting, and JWT token revocation. An extensive  document tracks deferred tasks. The agent has just begun scaffolding Phase 2B (Admin Console). 
+
+**Last working item**: 
+- Last item agent was working: Starting **Phase 2B.1** (Admin shell + auth + layout + dashboard). The agent just initiated edits and installed frontend packages like  and  to prepare the admin dashboard and UI shell.
+- Status: IN PROGRESS
+- Agent Testing Done: N
+- Which testing method agent to use?: Frontend testing agent & screenshot tool for UI verification, curl / backend testing agent for the new admin API endpoints.
+- User Testing Done: N
+
+**All Pending/In progress Issue list**:
+Issue 1: Phase 2B.1 Implementation
+- Attempted fixes: Installed  and updated frontend layout shells. Work is fresh and ongoing.
+- Next debug checklist: Continue scaffolding ,  pages, implement the admin dashboard layout, and create the required backend endpoint . Ensure admin role RBAC is strictly applied.
+- Why fix this issue and what will be achieved with the fix?: Fulfills the 1st sub-milestone of the Admin Console Phase.
+- Status: IN PROGRESS
+- Is recurring issue?: N
+- Should Test frontend/backend/both after fix?: Both
+- Blocked on other issue: None
+
+**In progress Task List**:
+Task 1: Phase 2B Admin Console Execution
+- Where to resume: Complete Phase 2B.1 (Admin shell & dashboard). Then proceed sequentially through sub-milestones 2B.2 to 2B.8. 
+- What will be achieved with this?: A complete 9-page Admin Console for managing customers, routes, billing, products, and deliveries.
+- Status: IN PROGRESS
+- Should Test frontend/backend/both after fix?: Both
+- Blocked on something: None
+
+**Upcoming and Future Tasks**:
+*Phase 2B Sub-milestones (P0):*
+- Phase 2B.2: Customers list + detail + adjustments. Needs new endpoints , , .
+- Phase 2B.3: Routes + drag-drop sequencing (MUST use  and persist to DB).
+- Phase 2B.4: Deliveries + manual override. Needs new endpoints  and .
+- Phase 2B.5: Products CRUD + price changes. Needs new endpoint .
+- Phase 2B.6: Billing + invoice reconciliation.
+- Phase 2B.7: Reports + CSV exports. Needs new endpoints , . All report pages must have CSV export matching the current filters.
+- Phase 2B.8: Polish + tests + sanity audit. Ensure all 9 pages work, drag-drop persists, and no regressions in Phase 2A tests (38 tests).
+
+*Phase 2C & Future (P1):*
+- Phase 2C: Invoice PDF generation using reportlab or weasyprint. PDF generated lazily, cached locally, viewable by customer and admin.
+- Post-2C Polish: Enable TypeScript strict mode ( in tech debt).
+- Future Tasks: Wire Live MSG91, Razorpay, and wallet recharge flow. Implement  table for customer mutations (from TECH_DEBT §5.5).
+
+**Completed work in this session**:
+- PostgreSQL + Alembic Setup with pg_trgm (DONE)
+- Centralized cutoff logic, billing calculation, and bottle ledger services (DONE)
+- Phase 1 Backend API with JWT Auth + OTP Flow (DONE)
+- 38 Pytest cases covering business logic, RBAC, cutoff rules (DONE)
+- Phase 2A Customer Web App (Next.js 14, shadcn, Tailwind) with 10 pages (DONE)
+- Pre-Phase-2B Hardening Sprint: CORS whitelist, OTP rate-limiting, JWT token revocation via DB, removing remaining MongoDB references (DONE)
+- Tracking deferred technical debt in  (DONE)
+
+**Earlier issues found/mentioned but not fixed**:
+- TypeScript  in frontend (Tracked as  in . Deferred to Post-Phase 2C).
+- No audit trail for customer-facing mutations (Tracked as  in . Deferred).
+
+**Known issue recurrence from previous fork**:
+- Recurrence count: 0
+- Status: NOT STARTED
+
+**Code Architecture**:
+
+
+**Key Technical Concepts**:
+- Backend: FastAPI, PostgreSQL 15, asyncpg, SQLAlchemy 2.0 Async, Alembic, APScheduler (in-process). 
+- Frontend: Next.js 14 App Router, Tailwind CSS, shadcn/ui, React Query, Zod.
+- Architecture: Provider pattern used for all integrations (SMS, Payments, Push, Maps, Storage) to allow easy config-switch from stubs to real implementations.
+- Design System: Organic & Earthy theme (cream/ochre palette), dense tables for admin console.
+
+**key DB schema**:
+- : id, phone, role [customer|admin|delivery]
+- : id, name, sku, price_paise, requires_bottle
+- : id, customer_id, frequency, status
+- : id, customer_id, delivery_date, quantity, status, cutoff_locked_at
+- : id, customer_id, change [+1|-1]
+- : id, customer_id, month, year, total_paise
+- : id, phone, code, request_ip
+- : jti, user_id, revoked_at
+
+**changes in tech stack**:
+- Completely eradicated MongoDB (and /) from requirements and code. Using exclusively PostgreSQL.
+- Frontend migrated from Create React App to Next.js 14 App Router.
+
+**All files of reference**:
+-  (Core domain logic for 8 PM IST cutoff)
+-  (LIVING DOCUMENT. Contains critical context for deferred items)
+-  (Run this if you ever need to reset DB. Idempotent)
+-  (Frontend fetch wrapper handling auto-auth headers)
+-  (Contains standard test users, admin , dev OTP )
+
+**Areas that need refactoring**:
+- Follow . Contains extensive, acknowledged technical debt backlog.
+
+**key api endpoints**:
+-  and 
+- 
+- 
+- Future Admin endpoints to be built in Phase 2B: , , etc.
+
+**Critical Info for New Agent**:
+- **NEVER use MongoDB.** 
+- **Dev OTP is ALWAYS .**
+- **Admin RBAC is strict:** Ensure  is enforced at both frontend middleware and backend dependency levels.
+- **Phase 2B non-negotiables:** Use  for drag-and-drop. Use  for charts. Ensure CSV exports work for all reports. Keep admin tables dense (40px row height).
+- Always use yarn install v1.22.22
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+success Saved lockfile.
+Done in 0.07s. in frontend.
+- When generating reports/summaries or saving updates, read/write to  as instructed by the user.
+
+**documents and test reports created in this job**:
+- 
+- 
+- 
+- 
+
+**Last 10 User Messages and any pending HUMAN messages**:
+- Sequential concise summary: User gave the final GO confirmed for Phase 2B - Admin Console. They outlined the exact scope of the 9 admin pages, non-negotiables (strict RBAC, , manual background job triggers, CSV exports, pg_trgm search), design consistency (dense UI), code quality rules, and new required API endpoints. They requested the agent to execute in sub-milestones (2B.1 through 2B.8), reporting back with a 3-line summary after each. 
+
+**Project Health Check**:
+- Broken: None
+- Mocked: Razorpay, MSG91 SMS, Firebase Push, Google Maps, S3 (All mocked successfully using Provider pattern in backend).
+
+**3rd Party Integrations**:
+- All integrations are currently heavily STUBBED behind Provider classes. Actual implementations are deferred.
+
+**Testing status**:
+- Testing agent used after significant changes: YES
+- Troubleshoot agent used after agent stuck in loop: NO
+- Test files created:  (38 passing tests)
+- Known regressions: None
+
+**Credentials to test flow**:
+- Admin Phone: 
+- Customer Phone: 
+- Delivery Phone: 
+- Universal Dev OTP: 
+
+**What agent forgot to execute**:
+- The agent *just* started Phase 2B.1 before handing over. You need to actually write the frontend pages for the admin layout, the , and the backend endpoint for  to complete 2B.1.
+
+**Debugging checklist for current issue**:
+Issue: Resume Phase 2B.1 Implementation
+Frontend files to check: 
+-  (To be created/verified)
+-  (To be created)
+Backend files to check: 
+-  (Add dashboard stats API)</analysis>

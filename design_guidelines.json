@@ -1,0 +1,180 @@
+{
+  "project_name": "Posuhtik",
+  "domain": "Subscription-based Fresh Dairy D2C",
+  "theme": {
+    "mode": "light",
+    "archetype": "1 (Organic & Earthy)",
+    "description": "Trustworthy, fresh, local Indian but modern. Warm, tactile, and rooted in Indian dairy heritage without feeling like generic tech SaaS.",
+    "colors": {
+      "css_variables": {
+        "--background": "44 40% 98%",
+        "--foreground": "20 10% 15%",
+        "--card": "0 0% 100%",
+        "--card-foreground": "20 10% 15%",
+        "--popover": "0 0% 100%",
+        "--popover-foreground": "20 10% 15%",
+        "--primary": "30 68% 54%",
+        "--primary-foreground": "0 0% 100%",
+        "--secondary": "104 9% 50%",
+        "--secondary-foreground": "0 0% 100%",
+        "--muted": "40 20% 92%",
+        "--muted-foreground": "25 10% 40%",
+        "--accent": "10 55% 52%",
+        "--accent-foreground": "0 0% 100%",
+        "--destructive": "0 84% 60%",
+        "--destructive-foreground": "0 0% 100%",
+        "--border": "40 15% 90%",
+        "--input": "40 15% 90%",
+        "--ring": "30 68% 54%",
+        "--radius": "1rem"
+      },
+      "palette_guide": {
+        "background": "#FDFBF7 (Warm Cream/Off-white) - Main app background",
+        "primary": "#D98A3C (Earthy Ochre/Turmeric) - Main actions, active states",
+        "secondary": "#7A8C74 (Sage Green) - Success, delivered states",
+        "accent": "#C55A45 (Terracotta Red) - Urgency, cutoff timer, alerts",
+        "muted": "#EBE6DF (Warm Oat) - Inactive tabs, disabled states, product card backgrounds",
+        "foreground": "#292624 (Deep Warm Charcoal) - Main typography"
+      }
+    },
+    "typography": {
+      "fonts": {
+        "headings": {
+          "family": "Outfit",
+          "import_url": "https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap",
+          "usage": "H1, H2, H3, prominent card titles. Use tracking-tight."
+        },
+        "body": {
+          "family": "Karla",
+          "import_url": "https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600&display=swap",
+          "usage": "Paragraphs, labels, buttons, navigation."
+        },
+        "mono": {
+          "family": "JetBrains Mono",
+          "usage": "Specifically for the 8:00 PM cutoff countdown timer to ensure fixed-width digits."
+        }
+      },
+      "scales": {
+        "h1": "text-3xl sm:text-4xl font-bold tracking-tight text-foreground",
+        "h2": "text-2xl sm:text-3xl font-bold tracking-tight text-foreground",
+        "h3": "text-xl sm:text-2xl font-semibold tracking-tight text-foreground",
+        "body": "text-base font-normal leading-relaxed text-foreground/90",
+        "small": "text-sm font-medium text-muted-foreground",
+        "timer": "text-xl sm:text-2xl font-mono font-bold tracking-tighter"
+      }
+    },
+    "spacing_and_layout": {
+      "philosophy": "Mobile-first, generous touch targets. High padding in cards to emphasize premium D2C feel.",
+      "container": "max-w-md mx-auto min-h-screen bg-background pb-24 relative shadow-xl sm:border-x sm:border-border",
+      "grid": "Bento-style for dashboard summaries. Minimal 1-col for mobile scrolling feeds."
+    }
+  },
+  "components": {
+    "navigation": {
+      "mobile_bottom_tab_bar": {
+        "layout": "fixed bottom-0 w-full max-w-md bg-white border-t border-border shadow-[0_-8px_30px_-15px_rgba(0,0,0,0.1)] z-50 rounded-t-2xl pb-safe",
+        "items": "flex justify-between items-center px-6 py-3",
+        "tab_styling": "flex flex-col items-center gap-1 text-[10px] font-medium transition-colors",
+        "active_state": "text-primary scale-105 transition-transform",
+        "inactive_state": "text-muted-foreground hover:text-foreground"
+      }
+    },
+    "cards": {
+      "default": "bg-white rounded-2xl border border-border/50 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)] p-5 overflow-hidden",
+      "product": "bg-white rounded-2xl border border-border/50 overflow-hidden flex flex-col group",
+      "product_image_wrapper": "bg-muted aspect-square flex items-center justify-center p-4 relative",
+      "subscription": "bg-white rounded-2xl p-5 border-l-4 border-l-primary shadow-sm"
+    },
+    "buttons": {
+      "primary": "bg-primary text-primary-foreground rounded-full font-medium px-6 py-3 sm:py-6 shadow-[0_4px_14px_0_rgba(217,138,60,0.39)] hover:bg-primary/90 hover:shadow-lg transition-all active:scale-95",
+      "secondary": "bg-secondary text-secondary-foreground rounded-full font-medium hover:bg-secondary/90",
+      "outline": "border-2 border-primary text-primary rounded-full bg-transparent hover:bg-primary/5",
+      "ghost": "rounded-full hover:bg-muted text-foreground"
+    },
+    "badges": {
+      "active": "bg-green-100 text-green-800 border-none rounded-full px-3 py-1 text-xs font-semibold",
+      "pending": "bg-orange-100 text-orange-800 border-none rounded-full px-3 py-1 text-xs font-semibold",
+      "skipped": "bg-stone-100 text-stone-600 border-none rounded-full px-3 py-1 text-xs font-semibold"
+    },
+    "calendar": {
+      "container": "bg-white rounded-2xl p-4 shadow-sm border border-border",
+      "day_locked": "opacity-40 bg-stone-50 text-stone-400 pointer-events-none rounded-lg flex flex-col items-center justify-center relative overflow-hidden after:content-[''] after:absolute after:inset-0 after:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMjBMMjAgMCIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiLz48L3N2Zz4=')] after:opacity-50",
+      "day_editable": "bg-white hover:bg-muted cursor-pointer transition-colors rounded-lg",
+      "day_delivery_active": "bg-primary/10 text-primary font-bold border border-primary/20 rounded-lg relative after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-primary after:rounded-full"
+    },
+    "cutoff_timer": {
+      "container": "bg-accent/10 border border-accent/20 rounded-xl p-4 flex items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-2",
+      "icon": "text-accent animate-pulse",
+      "typography": "text-accent font-mono font-bold text-xl tracking-tight",
+      "label": "text-xs font-medium text-accent/80 uppercase tracking-widest"
+    },
+    "dialog_sheet": {
+      "content": "rounded-t-3xl sm:rounded-3xl border-none shadow-2xl bg-background",
+      "overlay": "bg-black/40 backdrop-blur-sm"
+    },
+    "sonner_toast": {
+      "style": "bg-white border border-border shadow-lg rounded-xl",
+      "success": "border-l-4 border-l-secondary",
+      "error": "border-l-4 border-l-accent"
+    },
+    "skeleton": {
+      "style": "bg-muted/60 animate-pulse rounded-xl"
+    }
+  },
+  "specific_screens_guidelines": {
+    "login": {
+      "layout": "Centered content. Rich organic background texture or warm oat color.",
+      "form": "Large input field for phone number, clean OTP 6-box input. Primary button spans full width. OTP dev default: 123456."
+    },
+    "dashboard": {
+      "hero_card": "Next delivery context prominently displayed. Use 'cards.subscription' styling.",
+      "bento_grid": "2-column grid. Left: Bottle Balance (icon: glass bottle, value). Right: Wallet Balance (icon: wallet, ₹ value)."
+    },
+    "subscription_detail": {
+      "sticky_action": "Bottom sticky bar sitting just above the mobile nav containing 'Save Changes' and the 8 PM Cutoff Timer."
+    }
+  },
+  "assets": {
+    "icons": {
+      "library": "@phosphor-icons/react",
+      "style": "Duotone weight for premium feel. Use Fill weight for active bottom tabs."
+    },
+    "images": {
+      "product_milk": {
+        "url": "https://images.unsplash.com/photo-1768850418252-37af725e46bb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MTN8MHwxfHNlYXJjaHwyfHxnbGFzcyUyMGJvdHRsZSUyMG1pbGslMjBmcmVzaCUyMGZhcm18ZW58MHx8fHwxNzc2NzA2MDc0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Glass bottle of fresh farm milk",
+        "category": "catalog_product"
+      },
+      "product_ghee": {
+        "url": "https://images.unsplash.com/photo-1573812461383-e5f8b759d12e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNzl8MHwxfHNlYXJjaHwxfHxjbGFyaWZpZWQlMjBidXR0ZXIlMjBnaGVlfGVufDB8fHx8MTc3NjcwNjA2OXww&ixlib=rb-4.1.0&q=85",
+        "description": "Jar of pure golden ghee",
+        "category": "catalog_product"
+      },
+      "product_paneer": {
+        "url": "https://images.pexels.com/photos/20395267/pexels-photo-20395267.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Fresh paneer",
+        "category": "catalog_product"
+      },
+      "product_buttermilk": {
+        "url": "https://images.unsplash.com/photo-1630748662359-40a2105640c7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxidXR0ZXJtaWxrJTIwY2hhYXMlMjBjbGF5JTIwZ2xhc3N8ZW58MHx8fHwxNzc2NzA2MDc0fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Clay glass of traditional buttermilk/chaas",
+        "category": "catalog_product"
+      }
+    }
+  },
+  "testing_guidelines": {
+    "attributes": [
+      "All buttons must have data-testid='[action]-button'",
+      "Form inputs must have data-testid='[field]-input'",
+      "Navigation tabs must have data-testid='[page]-tab'",
+      "Timer element must have data-testid='cutoff-timer'",
+      "Calendar days must have data-testid='calendar-day-[date]'"
+    ]
+  },
+  "implementation_instructions": {
+    "tailwind": "Add the CSS variables to your global CSS and map them in tailwind.config.js under colors.",
+    "shadcn_overrides": "Do NOT use default shadcn border-radius or gray borders. Override global CSS variables exactly as provided. Remove standard Vercel-look borders from Cards.",
+    "javascript_note": "Ensure components are built using .jsx/.js as per project setup, avoiding TypeScript strict types if .js is strictly mandated, but use standard React prop validation.",
+    "calendar_component": "Customize shadcn calendar heavily for the 30-day view. Inject 'day_locked' styling based on a simple 'isBeforeCutoff' check against today's date."
+  }
+}

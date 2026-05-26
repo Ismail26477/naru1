@@ -1,0 +1,46 @@
+{
+  "summary": "Phase 2B.8 full regression — backend pytest 146/146 green (incl. new test_2b8_scheduler.py + view_mode tests in test_admin_reports.py). Frontend E2E verified the six Phase 2B.8 user stories on the deployed preview URL: admin OTP login (+919000000001 / 123456) lands /admin/dashboard; sidebar shows exactly 7 nav items (dashboard, customers, routes, delivery-orders, products, billing, reports) with nav-audit-log CONFIRMED REMOVED; Revenue view-mode toggle present — data-testid=revenue-view-mode-issued has bg-background+shadow-sm by default, clicking data-testid=revenue-view-mode-billperiod transfers the shadow-sm/bg-background active style to it, disables data-testid=revenue-groupby (disabled attribute set), and the chart badge renders exactly '2 months · bill period'; /admin/delivery-orders/00000000-0000-0000-0000-000000000000 shows the data-testid=delivery-detail-error card with text 'Delivery order not found.' + 'Back to deliveries' anchor (styled as button) — NO forever spinner; customer OTP login (+919000000004 / 123456) redirects to /dashboard; customer hitting /admin/dashboard is redirected to /admin/login. Two minor deviations documented below.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Customer-token → /admin/* redirect",
+        "issue": "Spec requires redirect to '/admin/login?error=not_admin' when a non-admin token hits an admin route, but observed redirect was bare '/admin/login' (no query string). The redirect itself works (blocked correctly), but the error discriminator is missing — so the admin-login page cannot render an 'Access denied' inline banner to distinguish this from a plain logged-out state.",
+        "affected_selectors": ["/admin/layout.tsx router.replace", "any inline error banner on /admin/login keyed off searchParams.error"]
+      }
+    ],
+    "design_issues": []
+  },
+  "not_fully_verified": [
+    {
+      "feature": "Invoice detail post-billing-callout (data-testid=post-billing-callout, post-billing-row-*, post-billing-regenerate-shortcut)",
+      "reason": "Could not be exercised end-to-end: /admin/billing list page renders with zero invoice anchor links in current dev seed, so we never navigated to an invoice that has has_post_billing_adjustments=true. Component is a conditional render; backend tests already cover the data path. Main agent should either (a) seed an invoice with an override_adjustment row, or (b) manually visit /admin/invoices/<id> for such an invoice to self-verify the new callout + rows + shortcut button.",
+      "recommendation": "Either add a dev-seed step that creates one invoice with an override adjustment, or expose a direct link/ID during seed output so QA can navigate."
+    }
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_2b8_scheduler.py",
+    "/app/backend/tests/test_admin_reports.py",
+    "/app/test_reports/pytest/iter2_results.xml"
+  ],
+  "action_items": [
+    "(Minor) Include ?error=not_admin on the redirect from /admin/* when a non-admin token is detected, so /admin/login can surface an inline 'Access denied' banner as stated in the spec.",
+    "(Setup/QA aid) Add a dev seed fixture that creates at least one Invoice with has_post_billing_adjustments=true so the new post-billing-callout can be regression-tested end-to-end without manual DB manipulation."
+  ],
+  "critical_code_review_comments": [
+    "Phase 2B.8 frontend changes look clean: view_mode toggle uses plain <button> pills with pressed-styling driven by conditional className (bg-background shadow-sm text-foreground) — a simple and testable pattern. The groupBy Select correctly takes disabled=true in bill-period mode.",
+    "Delivery-detail not-found branch (data-testid=delivery-detail-error) correctly short-circuits the page before a spinner fallback — the isError branch is rendered as a Card with a single 'Back to deliveries' link; good fix for the forever-spinner regression.",
+    "Admin layout sidebar: the 7 remaining nav items each carry data-testid=nav-*, making future regressions trivially detectable. Audit-log nav + unused ShieldAlert import confirmed gone from the rendered DOM.",
+    "Backend: admin_reports.revenue view_mode enum is validated (invalid values 400) — verified by test_revenue_view_mode_invalid_rejected. CSV export echoes view_mode in Summary section — verified by test_revenue_csv_export_respects_view_mode.",
+    "Singleton system user: partial unique index uq_users_is_system_true plus ix_users_name_trgm now coexist in one __table_args__ tuple (previous bug was a duplicate __table_args__ silently dropping the partial index). Insert-duplicate test confirms IntegrityError. Good catch."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (146/146 pytest)", "frontend": "95% (6/7 Phase 2B.8 UI stories fully verified; 1 limited by seed data; 1 minor spec-vs-impl deviation on redirect query-string)"},
+  "test_credentials": "admin +919000000001 / 123456 · customer +919000000004 / 123456 · system +910000000000 (blocked, verified via backend tests) · dev fixed OTP 123456",
+  "seed_data_creation": "None — used existing dev seed. No invoice with post-billing adjustment was present; flagged as test-aid gap.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Preview URL: https://milk-console.preview.emergentagent.com. Admin console login inputs use data-testid 'admin-login-phone-input' and 'admin-login-otp-input'; customer login uses 'login-phone-input'. Both are plain <input type=\"text\"> (NOT tel) — use data-testid or page.locator('input').first, do NOT rely on type=tel selectors. Reports page selectors: revenue-view-mode-issued, revenue-view-mode-billperiod, revenue-groupby. The active pill is styled by presence of 'shadow-sm' + 'bg-background' in className (no aria-pressed or data-state attribute). Bill-period chart badge text format: '<N> months · bill period'. To test post-billing-callout, main agent must first seed an invoice with has_post_billing_adjustments=true.",
+  "rca_of_the_issue": "Minor integration gap: admin layout redirect on non-admin token strips the intended ?error=not_admin query flag. Low impact — security behaviour (blocking access) is correct; only the UX hint on the login page is missing."
+}
