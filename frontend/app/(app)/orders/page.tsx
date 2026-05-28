@@ -41,7 +41,7 @@ export default function OrdersPage() {
       </header>
 
       <Tabs value={tab} onValueChange={(v: any) => setTab(v)} className="mb-4">
-        <TabsList className="w-full rounded-full bg-muted p-1">
+        <div className="w-full rounded-full bg-muted p-1 flex">
           <TabsTrigger value="upcoming" className="flex-1 rounded-full" data-testid="orders-upcoming-tab">Upcoming</TabsTrigger>
           <TabsTrigger value="history" className="flex-1 rounded-full" data-testid="orders-history-tab">History</TabsTrigger>
         </TabsList>
