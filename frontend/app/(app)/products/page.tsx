@@ -7,7 +7,7 @@ import { apiFetch } from '@/lib/api';
 import { paiseToRupees } from '@/lib/format';
 import { todayIstYmd } from '@/lib/cutoff';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogFooter, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -100,7 +100,7 @@ export default function ProductsPage() {
       </div>
 
       <Dialog open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
-        <DialogContent className="rounded-3xl border-none">
+        <div className="rounded-3xl border-none bg-white p-6">
           <DialogHeader>
             <DialogTitle className="font-display text-xl">{selected?.name}</DialogTitle>
             <DialogDescription>
@@ -180,7 +180,7 @@ export default function ProductsPage() {
               {subscribe.isPending ? 'Subscribing…' : 'Confirm subscription'}
             </Button>
           </DialogFooter>
-        </DialogContent>
+        </div>
       </Dialog>
     </div>
   );
