@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/format';
 import { todayIstYmd, addDaysYmd } from '@/lib/cutoff';
 import { Badge } from '@/components/ui/badge';
 import { RowSkeleton } from '@/components/skeletons';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs } from '@/components/ui/tabs';
 
 const STATUS_COLOR: Record<string, string> = {
   delivered: 'bg-secondary/15 text-secondary-foreground border-secondary/30',
@@ -40,12 +40,27 @@ export default function OrdersPage() {
         <h1 className="text-3xl font-display font-bold tracking-tight mt-0.5">My orders</h1>
       </header>
 
-      <Tabs value={tab} onValueChange={(v: any) => setTab(v)} className="mb-4">
-        <div className="w-full rounded-full bg-muted p-1 flex">
-          <TabsTrigger value="upcoming" className="flex-1 rounded-full" data-testid="orders-upcoming-tab">Upcoming</TabsTrigger>
-          <TabsTrigger value="history" className="flex-1 rounded-full" data-testid="orders-history-tab">History</TabsTrigger>
-        </div>
-      </Tabs>
+      <div className="mb-4 flex w-full rounded-full bg-muted p-1">
+  <button
+    onClick={() => setTab("upcoming")}
+    className={`flex-1 rounded-full px-4 py-2 ${
+      tab === "upcoming" ? "bg-black text-white" : ""
+    }`}
+    data-testid="orders-upcoming-tab"
+  >
+    Upcoming
+  </button>
+
+  <button
+    onClick={() => setTab("history")}
+    className={`flex-1 rounded-full px-4 py-2 ${
+      tab === "history" ? "bg-black text-white" : ""
+    }`}
+    data-testid="orders-history-tab"
+  >
+    History
+  </button>
+</div>
 
       {(tab === 'upcoming' ? upcomingQ.isLoading : historyQ.isLoading) && (
         <div className="space-y-2"><RowSkeleton /><RowSkeleton /><RowSkeleton /></div>
