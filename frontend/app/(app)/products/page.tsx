@@ -7,7 +7,7 @@ import { apiFetch } from '@/lib/api';
 import { paiseToRupees } from '@/lib/format';
 import { todayIstYmd } from '@/lib/cutoff';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogHeader, DialogTitle, DialogFooter, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -102,10 +102,12 @@ export default function ProductsPage() {
       <Dialog open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
         <div className="rounded-3xl border-none bg-white p-6">
           <div>
-            <DialogTitle className="font-display text-xl">{selected?.name}</DialogTitle>
-            <DialogDescription>
+            <h2 className="font-display text-xl">
+  {selected?.name}
+</h2>
+            <p>
               {paiseToRupees(selected?.price_paise ?? 0)} per {selected?.unit}
-            </DialogDescription>
+            </p>
           </div>
 
           <div className="space-y-4 pt-2">
