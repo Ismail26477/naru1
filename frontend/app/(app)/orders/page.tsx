@@ -86,9 +86,12 @@ export default function OrdersPage() {
                   {o.skip_reason && <span className="italic"> · {o.skip_reason}</span>}
                 </div>
               </div>
-              <Badge className={`rounded-full border capitalize ${STATUS_COLOR[o.status] || ''}`}>
-                {o.status}
-              </Badge>
+              <Badge
+  variant="outline"
+  className={`rounded-full border capitalize ${STATUS_COLOR[o.status] || ''}`}
+>
+  {o.status}
+</Badge>
             </div>
           );
         })}
