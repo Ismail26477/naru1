@@ -44,7 +44,7 @@ export default function OrdersPage() {
         <div className="w-full rounded-full bg-muted p-1 flex">
           <TabsTrigger value="upcoming" className="flex-1 rounded-full" data-testid="orders-upcoming-tab">Upcoming</TabsTrigger>
           <TabsTrigger value="history" className="flex-1 rounded-full" data-testid="orders-history-tab">History</TabsTrigger>
-        </TabsList>
+        </div>
       </Tabs>
 
       {(tab === 'upcoming' ? upcomingQ.isLoading : historyQ.isLoading) && (
