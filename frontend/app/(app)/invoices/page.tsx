@@ -62,7 +62,12 @@ export default function InvoicesPage() {
             </div>
             <div className="text-right flex flex-col items-end gap-1.5">
               <div className="font-display font-bold">{paiseToRupees(inv.total_paise)}</div>
-              <Badge className={`rounded-full text-[10px] capitalize border ${STATUS_COLOR[inv.status] || ''}`}>{inv.status}</Badge>
+              <Badge
+  variant="outline"
+  className={`rounded-full text-[10px] capitalize border ${STATUS_COLOR[inv.status] || ''}`}
+>
+  {inv.status}
+</Badge>
             </div>
             <ChevronRight className="w-4 h-4 text-muted-foreground" />
           </Link>
