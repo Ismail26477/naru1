@@ -101,12 +101,12 @@ export default function ProductsPage() {
 
       <Dialog open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
         <div className="rounded-3xl border-none bg-white p-6">
-          <DialogHeader>
+          <div>
             <DialogTitle className="font-display text-xl">{selected?.name}</DialogTitle>
             <DialogDescription>
               {paiseToRupees(selected?.price_paise ?? 0)} per {selected?.unit}
             </DialogDescription>
-          </DialogHeader>
+          </div>
 
           <div className="space-y-4 pt-2">
             <div>
